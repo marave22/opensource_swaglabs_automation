@@ -1,0 +1,70 @@
+from loginswaglabs.pages.base_page import Base
+from loginswaglabs.pages.login_form import LoginPageSwagLabs
+from time import sleep
+import allure
+import pytest
+
+
+@pytest.mark.usefixtures('set_up')
+@allure.feature("Open Swag Labs")
+@allure.story("Opens the Swag Labs Login page")
+class TestNegative(Base):
+    @allure.testcase("Username & password inputs compare")
+    @allure.title("Credentials compare negative case")
+    @allure.severity("Low")
+    def test_01(self):
+        driver = self.driver
+        login = LoginPageSwagLabs(driver)
+        username_input = "standard_user"
+        username_output = "standard_user1"
+        login.input_username(username_input)
+        driver.implicitly_wait(50)
+        assert username_input == username_output, "negative test failed"
+
+        password_input = "secret_sauce"
+        password_output = "secret_sauce2"
+        login.input_password(password_input)
+        driver.implicitly_wait(50)
+        assert password_input == password_output, "negative test failed"
+
+    @allure.testcase("Valid username and an invalid password")
+    @allure.title("Login with invalid credentials")
+    @allure.severity("Medium")
+    def test_02(self):
+        driver = self.driver
+        login = LoginPageSwagLabs(driver)
+        username_input = "standard_user1"
+        password_input = "secret_sauce2"
+        login.input_username(username_input)
+        login.input_password(password_input)
+        login.login_button()
+        sleep(5)
+
+    @allure.testcase("Wrong user credentials login test")
+    @allure.title("Login with wrong credentials")
+    @allure.severity("Medium")
+    def test_03(self):
+        driver = self.driver
+        login = LoginPageSwagLabs(driver)
+        username = "test"
+        password = "test"
+        login.input_username(username)
+        login.input_password(password)
+        login.login_button()
+        assert "Epic sadface: Username and password do not match any user in this service" in driver.page_source, "positive test failed "
+        sleep(5)
+
+    @allure.testcase("Wrong user credentials")
+    @allure.description("When the field is blank and Login button is clicked login test the warning error message")
+    @allure.title("Login with blank inputs")
+    @allure.severity("Medium")
+    def test_04(self):
+        driver = self.driver
+        login = LoginPageSwagLabs(driver)
+        username = ""
+        password = ""
+        login.input_username(username)
+        login.input_password(password)
+        login.login_button()
+        assert "Epic sadface: Username is required" in driver.page_source, "negative test failed"
+        sleep(5)

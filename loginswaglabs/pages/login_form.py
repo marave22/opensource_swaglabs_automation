@@ -24,5 +24,5 @@ class LoginPageSwagLabs:
         login_button.click()
 
     def error_button(self):
-        error_button = self.driver.find_element_by_id(self.error_btn)
+        error_button = self.driver.find_element_by_xpath(self.error_btn)
         error_button.click()
