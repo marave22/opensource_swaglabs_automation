@@ -1,0 +1,5 @@
+No.	Functional Test Cases	                                                                  Type - Negative/Positive Test Case
+1.  Verify  After successfully login in gmail click on profile icon to check                  Negative
+    logout button is visible or not.
+2.  Verify  After logout try to re-login with same or different account it’s allowing or not. Negative
+3.  Verify the logs for the login and logout session.                                         Positive
